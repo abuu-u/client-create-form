@@ -198,11 +198,19 @@ export default defineComponent({
 
     const v$ = useVuelidate()
 
-    let itemRefs: { invalid: boolean; focus: () => void }[] = []
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    let itemRefs: ((object | null) & {
+      invalid: boolean
+      focus: () => void
+    })[] = []
 
-    const setItemRef = (el: { invalid: boolean; focus: () => void }) => {
-      if (el) {
-        itemRefs.push(el)
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    const setItemRef = (ref: object | null): void => {
+      if (ref) {
+        itemRefs.push(
+          // eslint-disable-next-line @typescript-eslint/ban-types
+          ref as (object | null) & { invalid: boolean; focus: () => void },
+        )
       }
     }
 
